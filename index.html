@@ -7,363 +7,197 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root {
-    --ucm-red: #b71234;
-    --ucm-red-dark: #8c0d27;
-    --ucm-red-light: #f7e0e5;
-    --ucm-red-mid: #d4365a;
-    --text-primary: #1a1a1a;
-    --text-secondary: #555;
-    --text-muted: #888;
-    --border: #e0e0e0;
-    --bg-surface: #f9f9f9;
-    --bg-white: #ffffff;
-    --font: 'Segoe UI', Arial, sans-serif;
+    --rojo: #b71234;
+    --rojo-dark: #8c0d27;
+    --rojo-light: #f7e0e5;
+    --rojo-mid: #d4365a;
+    --text: #2f2f2f;
+    --text2: #555;
+    --text3: #888;
+    --border: #f0dde0;
+    --border2: #e0e0e0;
+    --bg: #f9f9f9;
+    --white: #ffffff;
   }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; font-size: 15px; line-height: 1.7; color: var(--text); background: #f0f0f0; }
 
-  body {
-    font-family: var(--font);
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--text-primary);
-    background: #f4f4f4;
-  }
-
-  /* ── Header institucional ── */
+  /* Barra institucional */
   .inst-bar {
-    background: var(--ucm-red);
+    background: var(--rojo);
     color: #fff;
-    padding: 10px 40px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    padding: 9px 32px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: bold;
     letter-spacing: 0.02em;
-  }
-  .inst-bar svg { flex-shrink: 0; }
-  .inst-bar .sep { opacity: 0.4; margin: 0 4px; }
-
-  /* ── Layout ── */
-  .page { max-width: 900px; margin: 0 auto; background: var(--bg-white); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-
-  .doc-header {
-    padding: 40px 48px 32px;
-    border-bottom: 3px solid var(--ucm-red);
-  }
-  .doc-header .eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ucm-red);
-    margin-bottom: 10px;
-  }
-  .doc-header h1 {
-    font-size: 26px;
-    font-weight: 600;
-    line-height: 1.25;
-    color: var(--text-primary);
-    margin-bottom: 16px;
-  }
-  .doc-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
-  .doc-meta span {
     display: flex;
     align-items: center;
-    gap: 5px;
-  }
-  .doc-meta svg { color: var(--ucm-red); flex-shrink: 0; }
-
-  /* ── TOC nav ── */
-  .toc {
-    background: var(--ucm-red-light);
-    border-left: 4px solid var(--ucm-red);
-    padding: 20px 28px;
-    margin: 0 48px 32px;
-    border-radius: 0 6px 6px 0;
-    margin-top: 28px;
-  }
-  .toc-title {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ucm-red-dark);
-    margin-bottom: 10px;
-  }
-  .toc ol {
-    list-style: decimal;
-    padding-left: 18px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px 32px;
-    font-size: 13px;
-  }
-  .toc ol li a {
-    color: var(--ucm-red-dark);
-    text-decoration: none;
-  }
-  .toc ol li a:hover { text-decoration: underline; }
-
-  /* ── Secciones ── */
-  .content { padding: 0 48px 48px; }
-
-  .section { margin-bottom: 40px; scroll-margin-top: 20px; }
-
-  .section-heading {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-  .section-num {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--ucm-red);
-    min-width: 24px;
-  }
-  .section-heading h2 {
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  h3 {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 18px 0 6px;
-  }
-
-  p { margin-bottom: 10px; font-size: 14px; color: var(--text-primary); }
-  ul { padding-left: 20px; font-size: 14px; margin-bottom: 10px; }
-  ul li { margin-bottom: 4px; }
-
-  /* ── Tags ── */
-  .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
-  .tag {
-    font-size: 12px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 1px solid;
-    font-weight: 500;
-  }
-  .tag-red { background: var(--ucm-red-light); color: var(--ucm-red-dark); border-color: #f0b5c0; }
-  .tag-gray { background: #f0f0f0; color: #444; border-color: #d8d8d8; }
-  .tag-dark { background: #2d2d2d; color: #eee; border-color: #444; }
-
-  /* ── Note / callout ── */
-  .note {
-    background: var(--ucm-red-light);
-    border-left: 3px solid var(--ucm-red);
-    padding: 12px 16px;
-    font-size: 13px;
-    color: var(--ucm-red-dark);
-    border-radius: 0 4px 4px 0;
-    margin: 14px 0;
-    display: flex;
     gap: 10px;
-    align-items: flex-start;
   }
-  .note svg { flex-shrink: 0; margin-top: 2px; }
+  .inst-bar .sep { opacity: 0.5; margin: 0 4px; }
 
-  /* ── Metric cards ── */
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
-    margin: 16px 0;
-  }
-  .metric {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--ucm-red);
-    border-radius: 4px;
-    padding: 14px 16px;
-    text-align: center;
-  }
-  .metric .m-val {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--ucm-red);
-    line-height: 1.2;
-  }
-  .metric .m-label {
-    font-size: 12px;
-    color: var(--text-secondary);
-    margin-top: 4px;
+  /* Wrapper */
+  .page {
+    background: var(--bg);
+    padding: 25px;
+    border-radius: 10px;
+    max-width: 1100px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   }
 
-  /* ── Tabla ── */
-  .table-wrap { overflow-x: auto; margin: 12px 0; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  thead tr { background: var(--ucm-red); color: #fff; }
-  thead th { padding: 9px 12px; text-align: left; font-weight: 600; font-size: 12px; letter-spacing: 0.03em; }
-  tbody tr:nth-child(even) { background: #fafafa; }
-  tbody tr:hover { background: var(--ucm-red-light); }
-  tbody td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
-  .badge {
-    display: inline-block;
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-weight: 600;
-  }
-  .badge-red { background: var(--ucm-red-light); color: var(--ucm-red-dark); }
-  .badge-gray { background: #eee; color: #555; }
-  .badge-dark { background: #333; color: #fff; }
+  /* Cabecera */
+  .doc-header { margin-bottom: 28px; }
+  .doc-header h1 { font-size: 20px; color: var(--rojo); font-weight: bold; margin-bottom: 6px; }
+  .doc-header p { color: var(--text); font-size: 14px; line-height: 1.7; margin-bottom: 14px; }
+  .doc-meta { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--text2); margin-bottom: 0; }
+  .doc-meta span { display: flex; align-items: center; gap: 5px; }
 
-  /* ── Fases ── */
-  .phases {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-    gap: 12px;
-    margin: 14px 0;
-    position: relative;
-  }
-  .phase {
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 16px;
-    background: var(--bg-white);
-    position: relative;
-    overflow: hidden;
-  }
-  .phase::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--ucm-red);
-  }
-  .phase .p-num {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ucm-red);
-    margin-bottom: 4px;
-  }
-  .phase .p-year { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
-  .phase .p-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-  .phase .p-desc { font-size: 12px; color: var(--text-secondary); }
+  /* Layout principal */
+  .layout { display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start; }
 
-  /* ── Gráficos ── */
-  .charts-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin: 20px 0;
-  }
-  @media (max-width: 600px) { .charts-grid { grid-template-columns: 1fr; } }
+  /* Índice lateral */
+  nav.sidebar { flex: 0 0 155px; min-width: 0; }
+  nav.sidebar .nav-title { font-size: 11px; font-weight: bold; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+  nav.sidebar ol { margin: 0; padding-left: 18px; line-height: 2.4; font-size: 14px; }
+  nav.sidebar ol li a { color: var(--text); text-decoration: none; }
+  nav.sidebar ol li a:hover { color: var(--rojo); }
 
-  .chart-card {
-    background: var(--bg-white);
-    border: 1px solid var(--border);
-    border-radius: 8px;
+  /* Contenido */
+  .main { flex: 1 1 380px; min-width: 0; }
+
+  /* Tarjeta / bloque */
+  .card {
+    background: var(--white);
     padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   }
-  .chart-card.full { grid-column: 1 / -1; }
-  .chart-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .chart-subtitle { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
-  .chart-wrap { position: relative; }
-
-  /* Controles interactivos */
-  .chart-controls {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+  .card h2 {
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--rojo);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
     margin-bottom: 14px;
   }
-  .ctrl-btn {
-    font-size: 12px;
-    padding: 4px 12px;
-    border: 1px solid var(--border);
+  .card p { font-size: 14px; color: var(--text); margin-bottom: 8px; }
+  .card ul { font-size: 14px; padding-left: 20px; margin-bottom: 8px; }
+  .card ul li { margin-bottom: 4px; }
+  .card h3 { font-size: 14px; font-weight: bold; color: var(--text); margin: 14px 0 6px; }
+
+  /* Nota */
+  .note {
+    background: var(--rojo-light);
+    border-left: 3px solid var(--rojo);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--rojo-dark);
+    border-radius: 0 4px 4px 0;
+    margin: 12px 0 0;
+  }
+
+  /* Métricas */
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 14px 0; }
+  .metric {
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-top: 3px solid var(--rojo);
+    border-radius: 4px;
+    padding: 12px 14px;
+    text-align: center;
+  }
+  .metric .val { font-size: 21px; font-weight: bold; color: var(--rojo); line-height: 1.2; }
+  .metric .lbl { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+  /* Tabla */
+  .table-wrap { overflow-x: auto; margin: 10px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--rojo); color: #fff; }
+  thead th { padding: 9px 12px; text-align: left; font-weight: bold; font-size: 12px; }
+  thead th:not(:first-child) { text-align: right; }
+  tbody tr:nth-child(even) { background: #fafafa; }
+  tbody tr:hover { background: var(--rojo-light); }
+  tbody td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody td:not(:first-child) { text-align: right; }
+  .highlight { background: #fff5f7 !important; }
+  .highlight td { font-weight: bold; border-bottom: 2px solid var(--rojo) !important; }
+  .highlight td:first-child { color: var(--rojo); }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: bold; }
+  .badge-red { background: var(--rojo-light); color: var(--rojo-dark); }
+  .badge-gray { background: #eee; color: #555; }
+
+  /* Fases */
+  .phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 14px 0; }
+  .phase { border: 1px solid var(--border2); border-radius: 6px; padding: 14px; background: var(--white); border-top: 3px solid var(--rojo); }
+  .phase .p-num { font-size: 10px; font-weight: bold; letter-spacing: .1em; text-transform: uppercase; color: var(--rojo); margin-bottom: 3px; }
+  .phase .p-year { font-size: 12px; color: var(--text3); margin-bottom: 5px; }
+  .phase .p-title { font-size: 14px; font-weight: bold; margin-bottom: 5px; }
+  .phase .p-desc { font-size: 12px; color: var(--text2); }
+
+  /* Órganos */
+  .resp-list { display: flex; flex-direction: column; gap: 10px; margin: 10px 0; }
+  .resp-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border: 1px solid var(--border2); border-radius: 6px; }
+  .resp-icon { width: 34px; height: 34px; border-radius: 50%; background: var(--rojo-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--rojo); }
+  .resp-name { font-size: 13px; font-weight: bold; margin-bottom: 2px; }
+  .resp-desc { font-size: 12px; color: var(--text2); }
+
+  /* Transparencia */
+  .transp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 10px; margin: 12px 0; }
+  .transp-item { border: 1px solid var(--border2); border-radius: 6px; padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; }
+  .transp-item svg { color: var(--rojo); flex-shrink: 0; margin-top: 2px; }
+  .transp-item .t-title { font-size: 13px; font-weight: bold; margin-bottom: 2px; }
+  .transp-item .t-desc { font-size: 12px; color: var(--text2); }
+
+  /* Botones selector */
+  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .btn-sel {
+    padding: 6px 14px;
+    border: 2px solid #ccc;
+    background: #fff;
+    color: #555;
     border-radius: 20px;
-    background: var(--bg-white);
+    font-size: 12px;
     cursor: pointer;
-    color: var(--text-secondary);
+    font-family: Arial, sans-serif;
     transition: all 0.15s;
   }
-  .ctrl-btn.active, .ctrl-btn:hover {
-    background: var(--ucm-red);
+  .btn-sel.active, .btn-sel:hover {
+    background: var(--rojo);
     color: #fff;
-    border-color: var(--ucm-red);
+    border-color: var(--rojo);
+    font-weight: bold;
   }
 
-  /* ── Responsable table ── */
-  .resp-list { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; }
-  .resp-item {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    padding: 12px 16px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--bg-white);
+  /* TOC */
+  .toc {
+    background: var(--rojo-light);
+    border-left: 3px solid var(--rojo);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 20px;
   }
-  .resp-icon {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: var(--ucm-red-light);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .resp-icon svg { color: var(--ucm-red); }
-  .resp-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
-  .resp-desc { font-size: 12px; color: var(--text-secondary); }
+  .toc .toc-title { font-size: 11px; font-weight: bold; color: var(--rojo-dark); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+  .toc ol { padding-left: 18px; font-size: 13px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px 24px; }
+  .toc ol li a { color: var(--rojo-dark); text-decoration: none; }
+  .toc ol li a:hover { text-decoration: underline; }
 
-  /* ── Sección transparencia ── */
-  .transparency-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-    margin: 14px 0;
-  }
-  .transp-item {
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 14px 16px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
-  .transp-item svg { color: var(--ucm-red); flex-shrink: 0; margin-top: 2px; }
-  .transp-item .t-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
-  .transp-item .t-desc { font-size: 12px; color: var(--text-secondary); }
+  /* Fuente */
+  .source { font-size: 11px; color: #bbb; text-align: center; margin-top: 8px; }
+  .source a { color: var(--rojo); text-decoration: none; }
 
-  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
-
-  @media (max-width: 680px) {
-    .inst-bar { padding: 10px 20px; }
-    .doc-header { padding: 28px 24px 24px; }
-    .toc { margin: 20px 24px; }
+  @media (max-width: 640px) {
+    .layout { flex-direction: column; }
+    nav.sidebar { flex: none; width: 100%; }
     .toc ol { grid-template-columns: 1fr; }
-    .content { padding: 0 24px 40px; }
   }
 </style>
 </head>
 <body>
 
-<!-- Barra institucional -->
 <div class="inst-bar">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
   Universidad Complutense de Madrid
   <span class="sep">·</span>
   Portal de Transparencia
@@ -373,535 +207,490 @@
 
 <div class="page">
 
-  <!-- Cabecera del documento -->
+  <!-- Cabecera -->
   <div class="doc-header">
-    <div class="eyebrow">Documento público · Área de personal</div>
-    <h1>Plan de Gestión del Absentismo Laboral<br>PDI y PTGAS</h1>
+    <h1>Plan de gestión del absentismo laboral · PDI y PTGAS</h1>
+    <p>
+      Documento marco de intenciones de la Universidad Complutense de Madrid para el conocimiento, seguimiento y gestión de las ausencias del personal, en cumplimiento de los principios de transparencia, eficiencia y buena administración pública.
+    </p>
     <div class="doc-meta">
       <span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        Vigencia 2025–2027
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        PDI · PTGAS funcionario · PTGAS laboral
       </span>
       <span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        PDI y PTGAS (funcionario y laboral)
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+        Portal de Transparencia · Área de Personal
       </span>
-
-
     </div>
   </div>
 
-  <!-- Índice -->
-  <div class="toc">
-    <div class="toc-title">Índice de contenidos</div>
-    <ol>
-      <li><a href="#s1">Introducción y objeto</a></li>
-      <li><a href="#s2">Ámbito de aplicación</a></li>
-      <li><a href="#s3">Marco normativo</a></li>
-      <li><a href="#s4">Objetivos</a></li>
-      <li><a href="#s5">Indicadores y datos</a></li>
-      <li><a href="#s6">Tipología de ausencias</a></li>
-      <li><a href="#s7">Medidas preventivas</a></li>
-      <li><a href="#s8">Fases de implantación</a></li>
-      <li><a href="#s9">Órganos responsables</a></li>
-      <li><a href="#s10">Transparencia y publicación</a></li>
-    </ol>
-  </div>
+  <div class="layout">
 
-  <div class="content">
+    <!-- Índice lateral -->
+    <nav class="sidebar" aria-label="Índice de contenidos">
+      <p class="nav-title">Índice</p>
+      <ol>
+        <li><a href="#s1">Introducción</a></li>
+        <li><a href="#s2">Ámbito</a></li>
+        <li><a href="#s3">Marco normativo</a></li>
+        <li><a href="#s4">Objetivos</a></li>
+        <li><a href="#s5">Datos PTGAS</a></li>
+        <li><a href="#s6">Datos PDI</a></li>
+        <li><a href="#s7">Tipología</a></li>
+        <li><a href="#s8">Medidas</a></li>
+        <li><a href="#s9">Fases</a></li>
+        <li><a href="#s10">Responsables</a></li>
+        <li><a href="#s11">Transparencia</a></li>
+      </ol>
+    </nav>
 
-    <!-- 1 -->
-    <div class="section" id="s1">
-      <div class="section-heading">
-        <span class="section-num">01</span>
-        <h2>Introducción y objeto</h2>
-      </div>
-      <p>La Universidad Complutense de Madrid (UCM), como institución pública sujeta a los principios de transparencia, eficiencia y buena administración, elabora el presente Plan de Gestión del Absentismo Laboral con el fin de conocer, analizar, prevenir y reducir las ausencias no programadas al trabajo de su personal.</p>
-      <p>Este plan se enmarca en el compromiso institucional con la salud laboral, la mejora continua de las condiciones de trabajo y el cumplimiento de las obligaciones derivadas de la Ley 31/1995 de Prevención de Riesgos Laborales, el Estatuto Básico del Empleado Público (EBEP) y los Estatutos de la UCM.</p>
-    </div>
+    <!-- Contenido principal -->
+    <div class="main">
 
-    <!-- 2 -->
-    <div class="section" id="s2">
-      <div class="section-heading">
-        <span class="section-num">02</span>
-        <h2>Ámbito de aplicación</h2>
-      </div>
-      <p>El plan es de aplicación a toda la plantilla de la UCM, sin perjuicio de las especificidades de cada colectivo en cuanto a régimen jurídico y condiciones de trabajo:</p>
-      <div class="tags">
-        <span class="tag tag-red">Personal Docente e Investigador (PDI)</span>
-        <span class="tag tag-red">PTGAS funcionario</span>
-        <span class="tag tag-red">PTGAS laboral</span>
-        <span class="tag tag-gray">Personal investigador y técnico de apoyo</span>
-      </div>
-    </div>
-
-    <!-- 3 -->
-    <div class="section" id="s3">
-      <div class="section-heading">
-        <span class="section-num">03</span>
-        <h2>Marco normativo</h2>
-      </div>
-      <ul>
-        <li>Ley 31/1995, de 8 de noviembre, de Prevención de Riesgos Laborales</li>
-        <li>Real Decreto Legislativo 5/2015 — Estatuto Básico del Empleado Público (EBEP)</li>
-        <li>Ley Orgánica 2/2023, del Sistema Universitario (LOSU)</li>
-        <li>Estatutos de la Universidad Complutense de Madrid</li>
-        <li>Plan de Prevención de Riesgos Laborales de la UCM</li>
-        <li>Convenio Colectivo del PTGAS laboral y acuerdos de función pública aplicables</li>
-        <li>Ley 19/2013, de transparencia, acceso a la información pública y buen gobierno</li>
-        <li>Protocolo de actuación frente al Acoso Laboral en la UCM (aprobado 26/09/2023)</li>
-      </ul>
-    </div>
-
-    <!-- 4 -->
-    <div class="section" id="s4">
-      <div class="section-heading">
-        <span class="section-num">04</span>
-        <h2>Objetivos</h2>
-      </div>
-      <h3>Objetivo general</h3>
-      <p>Reducir el absentismo laboral injustificado y gestionar de forma integral las ausencias del personal de la UCM, favoreciendo el bienestar, la salud y la productividad institucional.</p>
-      <h3>Objetivos específicos</h3>
-      <ul>
-        <li>Registrar y analizar sistemáticamente los datos de tasa de asistencia y ausencias por colectivo, unidad y causa.</li>
-        <li>Identificar factores de riesgo asociados al absentismo: condiciones de trabajo, riesgos psicosociales y tecnostrés.</li>
-        <li>Desarrollar medidas preventivas en coordinación con la Dirección de PRL y el Comité de Seguridad y Salud en el Trabajo (CSST).</li>
-        <li>Establecer protocolos claros de comunicación y gestión de bajas por IT, accidentes laborales e in itinere.</li>
-        <li>Publicar en el Portal de Transparencia los datos actualizados sobre tasa de asistencia.</li>
-      </ul>
-    </div>
-
-    <!-- 5 — Indicadores con gráficos -->
-    <div class="section" id="s5">
-      <div class="section-heading">
-        <span class="section-num">05</span>
-        <h2>Indicadores y seguimiento de datos</h2>
-      </div>
-      <p>Los datos de tasa de asistencia se actualizan anualmente en el Portal de Transparencia. A continuación se presentan los indicadores principales y su evolución histórica estimada.</p>
-
-      <div class="metrics">
-        <div class="metric">
-          <div class="m-val">96,2%</div>
-          <div class="m-label">Tasa de asistencia PTGAS (último año)</div>
-        </div>
-        <div class="metric">
-          <div class="m-val">8,4</div>
-          <div class="m-label">Días de ausencia por IT (media por trabajador)</div>
-        </div>
-        <div class="metric">
-          <div class="m-val">0,38%</div>
-          <div class="m-label">Incidencia accidentes en jornada</div>
-        </div>
-        <div class="metric">
-          <div class="m-val">98%</div>
-          <div class="m-label">Cobertura seguimiento actividad docente PDI</div>
-        </div>
+      <!-- 1. Introducción -->
+      <div class="card" id="s1" tabindex="-1">
+        <h2>1. Introducción y objeto</h2>
+        <p>La Universidad Complutense de Madrid (UCM), como institución pública sujeta a los principios de transparencia, eficiencia y buena administración, elabora el presente Plan de Gestión del Absentismo Laboral con el fin de conocer, hacer seguimiento y gestionar las ausencias del personal.</p>
+        <p>Se trata de un <strong>documento marco de intenciones</strong> que establece los principios, objetivos y líneas de actuación que guiarán la política de la UCM en esta materia, sin perjuicio de los planes específicos que puedan desarrollarse para cada colectivo.</p>
       </div>
 
-      <!-- Gráfico 1: Evolución tasa de asistencia (interactivo por colectivo) -->
-      <div class="charts-grid">
-        <div class="chart-card full">
-          <div class="chart-title">Evolución de la tasa de asistencia</div>
-          <div class="chart-subtitle">Datos anuales por colectivo · Seleccione la vista</div>
-          <div class="chart-controls" id="colControls">
-            <button class="ctrl-btn active" onclick="setColectivo('todos')">Todos</button>
-            <button class="ctrl-btn" onclick="setColectivo('ptgas')">PTGAS</button>
-            <button class="ctrl-btn" onclick="setColectivo('pdi')">PDI</button>
+      <!-- 2. Ámbito -->
+      <div class="card" id="s2" tabindex="-1">
+        <h2>2. Ámbito de aplicación</h2>
+        <p>El plan es de aplicación a toda la plantilla de la UCM:</p>
+        <ul>
+          <li>Personal Docente e Investigador (PDI) — funcionario y laboral</li>
+          <li>Personal Técnico, de Gestión y de Administración y Servicios (PTGAS) — funcionario y laboral</li>
+          <li>Personal investigador y técnico de apoyo</li>
+        </ul>
+        <p>Cada colectivo tiene un régimen jurídico y un sistema de control de presencia específico, descritos en las secciones de datos correspondientes.</p>
+      </div>
+
+      <!-- 3. Marco normativo -->
+      <div class="card" id="s3" tabindex="-1">
+        <h2>3. Marco normativo</h2>
+        <ul>
+          <li>Ley 31/1995, de 8 de noviembre, de Prevención de Riesgos Laborales</li>
+          <li>Real Decreto Legislativo 5/2015 — Estatuto Básico del Empleado Público (EBEP)</li>
+          <li>Ley Orgánica 2/2023, del Sistema Universitario (LOSU)</li>
+          <li>Estatutos de la Universidad Complutense de Madrid</li>
+          <li>Plan de Prevención de Riesgos Laborales de la UCM</li>
+          <li>Convenio Colectivo del PTGAS laboral y acuerdos de función pública aplicables</li>
+          <li>Ley 19/2013, de transparencia, acceso a la información pública y buen gobierno</li>
+          <li>Protocolo de actuación frente al Acoso Laboral en la UCM (aprobado por el Consejo de Gobierno el 26/09/2023)</li>
+        </ul>
+      </div>
+
+      <!-- 4. Objetivos -->
+      <div class="card" id="s4" tabindex="-1">
+        <h2>4. Objetivos</h2>
+        <h3>Objetivo general</h3>
+        <p>Conocer y gestionar de forma integral las ausencias del personal de la UCM, con el fin de promover el bienestar laboral, mejorar las condiciones de trabajo y garantizar el servicio público.</p>
+        <h3>Objetivos específicos</h3>
+        <ul>
+          <li>Registrar y publicar sistemáticamente los datos de tasa de asistencia y horas de ausencia por colectivo.</li>
+          <li>Identificar factores de riesgo asociados al absentismo: condiciones de trabajo, riesgos psicosociales y tecnostrés.</li>
+          <li>Coordinar actuaciones preventivas con la Dirección de Prevención de Riesgos Laborales y el Comité de Seguridad y Salud en el Trabajo (CSST).</li>
+          <li>Establecer protocolos claros de gestión de bajas por IT, accidentes laborales e in itinere.</li>
+          <li>Garantizar la publicación periódica y accesible de los datos en el Portal de Transparencia.</li>
+        </ul>
+      </div>
+
+      <!-- 5. Datos PTGAS -->
+      <div class="card" id="s5" tabindex="-1">
+        <h2>5. Datos de asistencia PTGAS (2022–2025)</h2>
+        <p>Los datos proceden del Sistema de Control de Presencia de la UCM y se expresan en horas. La tasa de asistencia se calcula como el cociente entre horas realizadas y horas teóricas.</p>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="val">86,97&nbsp;%</div>
+            <div class="lbl">Tasa de asistencia 2025</div>
           </div>
-          <div class="chart-wrap"><canvas id="chartTasa" height="90"></canvas></div>
-        </div>
-
-        <div class="chart-card">
-          <div class="chart-title">Causas de ausencia</div>
-          <div class="chart-subtitle">Distribución porcentual</div>
-          <div class="chart-wrap"><canvas id="chartCausas" height="180"></canvas></div>
-        </div>
-
-        <div class="chart-card">
-          <div class="chart-title">Accidentes laborales</div>
-          <div class="chart-subtitle">En jornada vs. in itinere</div>
-          <div class="chart-wrap"><canvas id="chartAccidentes" height="180"></canvas></div>
-        </div>
-      </div>
-
-      <div class="note">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        El seguimiento del PDI se gestiona a través del Área de Seguimiento de la Inspección de Servicios, con cuatro puntos de control que garantizan una cobertura del cumplimiento de la actividad docente en torno al 98%.
-      </div>
-    </div>
-
-    <!-- 6 -->
-    <div class="section" id="s6">
-      <div class="section-heading">
-        <span class="section-num">06</span>
-        <h2>Tipología de ausencias</h2>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Tipo de ausencia</th>
-              <th>Colectivo</th>
-              <th>Gestión</th>
-              <th>Referencia UCM</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Incapacidad temporal (IT) por enfermedad común</td>
-              <td><span class="badge badge-gray">Todos</span></td>
-              <td>Parte médico + comunicación al servicio</td>
-              <td>EBEP / Convenio colectivo</td>
-            </tr>
-            <tr>
-              <td>Accidente de trabajo en jornada laboral</td>
-              <td><span class="badge badge-gray">Todos</span></td>
-              <td>Protocolo de actuación ante accidente UCM</td>
-              <td>IO-031 / Procedimientos PRL</td>
-            </tr>
-            <tr>
-              <td>Accidente in itinere</td>
-              <td><span class="badge badge-gray">Todos</span></td>
-              <td>Declaración y documentación específica</td>
-              <td>Guía accidentes in itinere UCM</td>
-            </tr>
-            <tr>
-              <td>Riesgo de violencia en el trabajo</td>
-              <td><span class="badge badge-gray">Todos</span></td>
-              <td>IO-031 Riesgo de violencia en el trabajo</td>
-              <td>IO-031 UCM</td>
-            </tr>
-            <tr>
-              <td>Permisos retribuidos reglamentarios</td>
-              <td><span class="badge badge-gray">Todos</span></td>
-              <td>Solicitud formal previa</td>
-              <td>EBEP / Normativa UCM</td>
-            </tr>
-            <tr>
-              <td>Ausencia no docente (PDI)</td>
-              <td><span class="badge badge-red">PDI</span></td>
-              <td>Registro en Barómetro de Seguimiento Docente</td>
-              <td>Área de Seguimiento — Inspección de Servicios</td>
-            </tr>
-            <tr>
-              <td>Ausencia injustificada</td>
-              <td><span class="badge badge-gray">Todos</span></td>
-              <td>Seguimiento por responsable + RRHH</td>
-              <td>Régimen disciplinario EBEP</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- 7 -->
-    <div class="section" id="s7">
-      <div class="section-heading">
-        <span class="section-num">07</span>
-        <h2>Medidas preventivas</h2>
-      </div>
-
-      <h3>Prevención de riesgos psicosociales y tecnostrés</h3>
-      <p>La Dirección de PRL de la UCM desarrolla actuaciones específicas frente al tecnostrés y otros riesgos psicosociales que inciden directamente en el absentismo, incluyendo recomendaciones técnicas y evaluaciones periódicas conforme a las guías publicadas en la web institucional.</p>
-
-      <h3>Vigilancia de la salud</h3>
-      <p>Mediante el procedimiento PRL-VS.001, se realiza una gestión activa de la vigilancia de la salud del personal, con especial atención a los colectivos con mayor exposición a riesgos identificados en las evaluaciones.</p>
-
-      <h3>Protección de la maternidad</h3>
-      <p>El procedimiento PRL-GP.005 establece el protocolo de actuación para la protección de la maternidad, reduciendo ausencias derivadas de riesgos no gestionados durante el embarazo y la lactancia.</p>
-
-      <h3>Formación e información</h3>
-      <p>De acuerdo con los procedimientos PRL-IP.001 y PRL-IP.002, se garantiza la formación continuada del personal y la información a los Delegados de Prevención sobre los riesgos y medidas preventivas vigentes.</p>
-
-      <h3>Planes de autoprotección</h3>
-      <p>Todos los centros de la UCM disponen de Planes de Autoprotección que minimizan el riesgo de accidentes en el trabajo, contribuyendo a la reducción de ausencias por este motivo.</p>
-
-      <h3>Protocolo frente al acoso laboral</h3>
-      <p>El Protocolo de actuación frente al Acoso Laboral en la UCM, aprobado por el Consejo de Gobierno el 26 de septiembre de 2023, proporciona un marco de actuación ante situaciones que pueden derivar en absentismo de causa psicosocial.</p>
-    </div>
-
-    <!-- 8 -->
-    <div class="section" id="s8">
-      <div class="section-heading">
-        <span class="section-num">08</span>
-        <h2>Fases de implantación</h2>
-      </div>
-      <div class="phases">
-        <div class="phase">
-          <div class="p-num">Fase 1</div>
-          <div class="p-year">2025 — Q1/Q2</div>
-          <div class="p-title">Diagnóstico</div>
-          <div class="p-desc">Análisis de datos históricos de tasa de asistencia y clasificación de causas de ausencia por unidad y colectivo.</div>
-        </div>
-        <div class="phase">
-          <div class="p-num">Fase 2</div>
-          <div class="p-year">2025 — Q3/Q4</div>
-          <div class="p-title">Diseño de medidas</div>
-          <div class="p-desc">Elaboración de protocolos de actuación y medidas preventivas en coordinación con el CSST y la Dirección de PRL.</div>
-        </div>
-        <div class="phase">
-          <div class="p-num">Fase 3</div>
-          <div class="p-year">2026</div>
-          <div class="p-title">Implantación</div>
-          <div class="p-desc">Puesta en marcha de las medidas, formación a responsables de unidad y comunicación interna.</div>
-        </div>
-        <div class="phase">
-          <div class="p-num">Fase 4</div>
-          <div class="p-year">2027</div>
-          <div class="p-title">Evaluación</div>
-          <div class="p-desc">Medición de resultados, ajuste del plan y publicación de informe de seguimiento en el Portal de Transparencia.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 9 -->
-    <div class="section" id="s9">
-      <div class="section-heading">
-        <span class="section-num">09</span>
-        <h2>Órganos responsables</h2>
-      </div>
-      <div class="resp-list">
-        <div class="resp-item">
-          <div class="resp-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          <div class="metric">
+            <div class="val">4.114.173</div>
+            <div class="lbl">Horas teóricas 2025</div>
           </div>
-          <div>
-            <div class="resp-name">Vicegerencia de Recursos Humanos</div>
-            <div class="resp-desc">Coordinación general del plan, gestión de datos de personal, publicación en el Portal de Transparencia y relaciones con los servicios de PTGAS funcionario y laboral.</div>
+          <div class="metric">
+            <div class="val">635.693</div>
+            <div class="lbl">Horas ausencia justificada 2025</div>
+          </div>
+          <div class="metric">
+            <div class="val">99.569</div>
+            <div class="lbl">Horas ausencia NO justificada 2025</div>
           </div>
         </div>
-        <div class="resp-item">
-          <div class="resp-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+
+        <!-- Tabla comparativa -->
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Año</th>
+                <th>Hs. Teóricas</th>
+                <th>Abs. Justif.</th>
+                <th>Abs. NO justif.</th>
+                <th>Hs. Realizadas</th>
+                <th>Tasa asist.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="highlight">
+                <td>2025 ★</td>
+                <td>4.114.173</td>
+                <td>635.693</td>
+                <td>99.569</td>
+                <td>3.578.048</td>
+                <td>86,97 %</td>
+              </tr>
+              <tr>
+                <td><strong>2024</strong></td>
+                <td>4.155.852</td>
+                <td>531.235</td>
+                <td>14.869</td>
+                <td>3.647.660</td>
+                <td><strong>87,77 %</strong></td>
+              </tr>
+              <tr>
+                <td><strong>2023</strong></td>
+                <td>4.067.211</td>
+                <td>531.863</td>
+                <td>14.869</td>
+                <td>3.520.478</td>
+                <td><strong>86,56 %</strong></td>
+              </tr>
+              <tr>
+                <td><strong>2022</strong></td>
+                <td>4.030.242</td>
+                <td>495.868</td>
+                <td>174.236</td>
+                <td>3.360.138</td>
+                <td><strong>83,37 %</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:11px;color:#aaa;margin-top:8px;">★ Año de referencia. Tasa = Horas Realizadas / Horas Teóricas.</p>
+
+        <!-- Gráfico PTGAS -->
+        <div style="margin-top:18px;">
+          <div class="btn-group" id="btnsPTGAS">
+            <button class="btn-sel active" onclick="setPTGAS('tasa')">Tasa asist. %</button>
+            <button class="btn-sel" onclick="setPTGAS('teoricas')">Hs. Teóricas</button>
+            <button class="btn-sel" onclick="setPTGAS('justif')">Abs. Justificado</button>
+            <button class="btn-sel" onclick="setPTGAS('nojustif')">Abs. NO justif.</button>
+            <button class="btn-sel" onclick="setPTGAS('realizadas')">Hs. Realizadas</button>
           </div>
-          <div>
-            <div class="resp-name">Dirección de Prevención de Riesgos Laborales</div>
-            <div class="resp-desc">Diseño y seguimiento de medidas preventivas, evaluación de riesgos psicosociales, gestión de los procedimientos PRL y elaboración del compendio normativo.</div>
+          <div style="position:relative;height:260px;">
+            <canvas id="chartPTGAS"></canvas>
           </div>
         </div>
-        <div class="resp-item">
-          <div class="resp-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <div>
-            <div class="resp-name">Comité de Seguridad y Salud en el Trabajo (CSST)</div>
-            <div class="resp-desc">Participación, debate y aprobación de planes y programas de prevención conforme al artículo 39 de la Ley 31/1995. Promover iniciativas sobre métodos y procedimientos preventivos.</div>
-          </div>
-        </div>
-        <div class="resp-item">
-          <div class="resp-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          </div>
-          <div>
-            <div class="resp-name">Inspección de Servicios — Área de Seguimiento</div>
-            <div class="resp-desc">Seguimiento de la actividad docente del PDI mediante cuatro puntos de control (Barómetro, Comisiones de Seguimiento, estadillos y sistema de sustituciones).</div>
-          </div>
-        </div>
-        <div class="resp-item">
-          <div class="resp-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-          </div>
-          <div>
-            <div class="resp-name">Responsables de unidad y centros</div>
-            <div class="resp-desc">Registro y comunicación inmediata de ausencias, aplicación de protocolos de actuación y coordinación con los Servicios de PTGAS correspondientes.</div>
-          </div>
+
+        <div class="note">
+          Fuente: <a href="https://www.ucm.es/directorio/?eid=898" target="_blank" rel="noopener" style="color:var(--rojo-dark);">Sistemas de Control de Presencia UCM</a>. Datos actualizados anualmente en el Portal de Transparencia.
         </div>
       </div>
-    </div>
 
-    <!-- 10 -->
-    <div class="section" id="s10">
-      <div class="section-heading">
-        <span class="section-num">10</span>
-        <h2>Transparencia y publicación de datos</h2>
+      <!-- 6. Datos PDI -->
+      <div class="card" id="s6" tabindex="-1">
+        <h2>6. Seguimiento de la actividad docente PDI</h2>
+        <p>El seguimiento de la actividad del Personal Docente e Investigador se realiza a través del <strong>Barómetro de Seguimiento Docente</strong>, gestionado por el Área de Seguimiento de la Inspección de Servicios. No se aplica un sistema de control de presencia horaria como el del PTGAS.</p>
+        <p>El Barómetro consta de aproximadamente <strong>10 olas de control</strong> repartidas entre noviembre y mayo de cada curso, mediante muestro aleatorio y estratificado de alumnos por centro, estudios y curso. La muestra total comprende <strong>26 submuestras independientes</strong>.</p>
+        <p>Los informes anuales están disponibles públicamente desde el curso 2006-2007 en el Área de Seguimiento de la Inspección de Servicios. El más reciente publicado corresponde al <strong>curso 2024-2025</strong>.</p>
+
+        <div class="table-wrap" style="margin-top:14px;">
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align:left;">Curso académico</th>
+                <th style="text-align:left;">Instrumento</th>
+                <th style="text-align:left;">Acceso</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>2024-2025</td><td>Barómetro de Seguimiento Docente</td><td><a href="https://www.ucm.es/file/informe-bar%C3%93metro-definitivo-2024-25-actualizado-1" target="_blank" rel="noopener" style="color:var(--rojo);">Informe PDF</a></td></tr>
+              <tr><td>2023-2024</td><td>Barómetro de Seguimiento Docente</td><td><a href="https://www.ucm.es/file/informe-barometro-2023-24" target="_blank" rel="noopener" style="color:var(--rojo);">Informe PDF</a></td></tr>
+              <tr><td>2022-2023</td><td>Barómetro de Seguimiento Docente</td><td><a href="https://www.ucm.es/file/memoria-bar%C3%93metro-2022-23?ver" target="_blank" rel="noopener" style="color:var(--rojo);">Informe PDF</a></td></tr>
+              <tr><td>2021-2022</td><td>Barómetro de Seguimiento Docente</td><td><a href="https://www.ucm.es/file/informe-bar%C3%93metro-2021-22-1" target="_blank" rel="noopener" style="color:var(--rojo);">Informe PDF</a></td></tr>
+              <tr><td>2006-2007 / 2020-2021</td><td>Barómetro de Seguimiento Docente</td><td><a href="https://www.ucm.es/informes-seguimiento" target="_blank" rel="noopener" style="color:var(--rojo);">Archivo histórico</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note">
+          Fuente: <a href="https://www.ucm.es/area-de-seguimiento" target="_blank" rel="noopener" style="color:var(--rojo-dark);">Área de Seguimiento — Inspección de Servicios UCM</a>.
+        </div>
       </div>
-      <p>En cumplimiento de la Ley 19/2013 y del compromiso de la UCM con la transparencia, los siguientes datos se publican periódicamente en el Portal de Transparencia (sección Área de Personal):</p>
 
-      <div class="transparency-grid">
-        <div class="transp-item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          <div>
-            <div class="t-title">Tasa de asistencia PTGAS</div>
-            <div class="t-desc">Actualización anual — próxima en enero 2027</div>
-          </div>
+      <!-- 7. Tipología -->
+      <div class="card" id="s7" tabindex="-1">
+        <h2>7. Tipología de ausencias</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align:left;">Tipo de ausencia</th>
+                <th style="text-align:left;">Colectivo</th>
+                <th style="text-align:left;">Referencia UCM</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Incapacidad temporal (IT) por enfermedad común</td>
+                <td><span class="badge badge-gray">Todos</span></td>
+                <td>EBEP / Convenio colectivo</td>
+              </tr>
+              <tr>
+                <td>Accidente de trabajo en jornada laboral</td>
+                <td><span class="badge badge-gray">Todos</span></td>
+                <td>IO-031 / Procedimientos PRL</td>
+              </tr>
+              <tr>
+                <td>Accidente in itinere</td>
+                <td><span class="badge badge-gray">Todos</span></td>
+                <td>Guía accidentes in itinere UCM</td>
+              </tr>
+              <tr>
+                <td>Riesgo de violencia en el trabajo</td>
+                <td><span class="badge badge-gray">Todos</span></td>
+                <td>IO-031 UCM</td>
+              </tr>
+              <tr>
+                <td>Permisos retribuidos reglamentarios</td>
+                <td><span class="badge badge-gray">Todos</span></td>
+                <td>EBEP / Normativa UCM</td>
+              </tr>
+              <tr>
+                <td>Incumplimiento de obligación docente</td>
+                <td><span class="badge badge-red">PDI</span></td>
+                <td>Barómetro — Inspección de Servicios</td>
+              </tr>
+              <tr>
+                <td>Ausencia injustificada</td>
+                <td><span class="badge badge-gray">Todos</span></td>
+                <td>Régimen disciplinario EBEP</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="transp-item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <div>
-            <div class="t-title">Estadísticas de plantilla</div>
-            <div class="t-desc">Por colectivo, categoría y género</div>
+      </div>
+
+      <!-- 8. Medidas -->
+      <div class="card" id="s8" tabindex="-1">
+        <h2>8. Líneas de actuación</h2>
+        <h3>Prevención de riesgos psicosociales y tecnostrés</h3>
+        <p>La Dirección de PRL desarrolla actuaciones específicas frente al tecnostrés y otros riesgos psicosociales que inciden en el absentismo, incluyendo recomendaciones técnicas y evaluaciones periódicas publicadas en la web institucional.</p>
+        <h3>Vigilancia de la salud</h3>
+        <p>Mediante el procedimiento PRL-VS.001 se realiza una gestión activa de la vigilancia de la salud del personal, con especial atención a colectivos con mayor exposición a riesgos identificados en las evaluaciones.</p>
+        <h3>Protección de la maternidad</h3>
+        <p>El procedimiento PRL-GP.005 establece el protocolo de actuación para la protección de la maternidad, reduciendo ausencias derivadas de riesgos no gestionados durante el embarazo y la lactancia.</p>
+        <h3>Formación e información</h3>
+        <p>Los procedimientos PRL-IP.001 y PRL-IP.002 garantizan la formación del personal y la información a los Delegados de Prevención sobre riesgos y medidas preventivas.</p>
+        <h3>Planes de autoprotección</h3>
+        <p>Todos los centros de la UCM disponen de Planes de Autoprotección que reducen el riesgo de accidentes en el trabajo.</p>
+        <h3>Protocolo frente al acoso laboral</h3>
+        <p>El Protocolo de actuación frente al Acoso Laboral en la UCM, aprobado por el Consejo de Gobierno el 26 de septiembre de 2023, proporciona un marco de actuación ante situaciones de acoso que pueden derivar en absentismo de causa psicosocial.</p>
+      </div>
+
+      <!-- 9. Fases -->
+      <div class="card" id="s9" tabindex="-1">
+        <h2>9. Fases de desarrollo</h2>
+        <div class="phases">
+          <div class="phase">
+            <div class="p-num">Fase 1</div>
+            <div class="p-year">Corto plazo</div>
+            <div class="p-title">Diagnóstico</div>
+            <div class="p-desc">Análisis de los datos disponibles de tasa de asistencia PTGAS y actividad docente PDI. Identificación de brechas de información.</div>
           </div>
-        </div>
-        <div class="transp-item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          <div>
-            <div class="t-title">Informes de satisfacción PTGAS</div>
-            <div class="t-desc">Encuestas anuales en centros UCM</div>
+          <div class="phase">
+            <div class="p-num">Fase 2</div>
+            <div class="p-year">Medio plazo</div>
+            <div class="p-title">Diseño</div>
+            <div class="p-desc">Elaboración de protocolos y medidas en coordinación con el CSST, la Dirección de PRL y los agentes sociales.</div>
           </div>
-        </div>
-        <div class="transp-item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <div>
-            <div class="t-title">Resultados de este plan</div>
-            <div class="t-desc">Informe final en el Portal de Transparencia (2027)</div>
+          <div class="phase">
+            <div class="p-num">Fase 3</div>
+            <div class="p-year">Medio plazo</div>
+            <div class="p-title">Implantación</div>
+            <div class="p-desc">Puesta en marcha de las medidas acordadas, formación a responsables de unidad y comunicación interna.</div>
+          </div>
+          <div class="phase">
+            <div class="p-num">Fase 4</div>
+            <div class="p-year">Largo plazo</div>
+            <div class="p-title">Evaluación</div>
+            <div class="p-desc">Medición de resultados y publicación de informe de seguimiento en el Portal de Transparencia.</div>
           </div>
         </div>
       </div>
 
-      <div class="note">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Los datos publicados en el Portal de Transparencia se rigen por la Ley 19/2013 de transparencia, acceso a la información pública y buen gobierno. Puede solicitarse información adicional a través del formulario de solicitud de acceso a la información pública de la UCM.
+      <!-- 10. Responsables -->
+      <div class="card" id="s10" tabindex="-1">
+        <h2>10. Órganos responsables</h2>
+        <div class="resp-list">
+          <div class="resp-item">
+            <div class="resp-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+            </div>
+            <div>
+              <div class="resp-name">Vicegerencia de Recursos Humanos</div>
+              <div class="resp-desc">Coordinación general, gestión de datos de personal y publicación en el Portal de Transparencia.</div>
+            </div>
+          </div>
+          <div class="resp-item">
+            <div class="resp-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <div class="resp-name">Dirección de Prevención de Riesgos Laborales</div>
+              <div class="resp-desc">Diseño y seguimiento de medidas preventivas, evaluación de riesgos y elaboración de procedimientos PRL.</div>
+            </div>
+          </div>
+          <div class="resp-item">
+            <div class="resp-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <div class="resp-name">Comité de Seguridad y Salud en el Trabajo (CSST)</div>
+              <div class="resp-desc">Participación y debate sobre planes y programas de prevención conforme al art. 39 de la Ley 31/1995.</div>
+            </div>
+          </div>
+          <div class="resp-item">
+            <div class="resp-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <div>
+              <div class="resp-name">Inspección de Servicios — Área de Seguimiento</div>
+              <div class="resp-desc">Seguimiento de la actividad docente del PDI mediante el Barómetro de Seguimiento Docente.</div>
+            </div>
+          </div>
+          <div class="resp-item">
+            <div class="resp-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <div>
+              <div class="resp-name">Responsables de unidad y centros</div>
+              <div class="resp-desc">Registro y comunicación de ausencias y aplicación de los protocolos institucionales.</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
 
-  </div><!-- /content -->
+      <!-- 11. Transparencia -->
+      <div class="card" id="s11" tabindex="-1">
+        <h2>11. Transparencia y publicación de datos</h2>
+        <p>En cumplimiento de la Ley 19/2013 y del compromiso de la UCM con la transparencia, los siguientes datos se publican periódicamente en el Portal de Transparencia (sección Área de Personal):</p>
+        <div class="transp-grid">
+          <div class="transp-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <div>
+              <div class="t-title">Tasa de asistencia PTGAS</div>
+              <div class="t-desc">Horas teóricas, ausencias justificadas y no justificadas, horas realizadas. Actualización anual.</div>
+            </div>
+          </div>
+          <div class="transp-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <div>
+              <div class="t-title">Informes del Barómetro PDI</div>
+              <div class="t-desc">Informes anuales de seguimiento de la actividad docente, disponibles desde el curso 2006-2007.</div>
+            </div>
+          </div>
+          <div class="transp-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div>
+              <div class="t-title">Estadísticas de plantilla</div>
+              <div class="t-desc">Datos de personal por colectivo, categoría y género.</div>
+            </div>
+          </div>
+          <div class="transp-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div>
+              <div class="t-title">Resultados de este plan</div>
+              <div class="t-desc">Una vez evaluadas las fases de implantación, se publicará un informe de seguimiento.</div>
+            </div>
+          </div>
+        </div>
+        <div class="note">
+          La información publicada en el Portal de Transparencia se rige por la Ley 19/2013. Puede solicitarse información adicional a través del formulario de <a href="https://www.ucm.es/portaldetransparencia/solicitud-acceso-informacion-publica" target="_blank" rel="noopener" style="color:var(--rojo-dark);">solicitud de acceso a la información pública</a> de la UCM.
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /layout -->
+
+  <p class="source">
+    Fuentes: <a href="https://www.ucm.es/portaldetransparencia/personal-de-administracion-y-servicios" target="_blank" rel="noopener">Portal de Transparencia UCM</a> &nbsp;·&nbsp;
+    <a href="https://www.ucm.es/informes-seguimiento" target="_blank" rel="noopener">Informes de Seguimiento — Inspección de Servicios</a> &nbsp;·&nbsp;
+    <a href="https://www.ucm.es/procedimientos-prl" target="_blank" rel="noopener">Procedimientos PRL UCM</a>
+  </p>
 
 </div><!-- /page -->
 
 <script>
-  const RED = '#b71234';
-  const RED_MID = '#d4365a';
-  const RED_LIGHT = 'rgba(183,18,52,0.12)';
-  const RED_FILL = 'rgba(183,18,52,0.08)';
-  const GRAY = '#888780';
-  const GRAY_LIGHT = 'rgba(136,135,128,0.12)';
-  const GRAY_FILL = 'rgba(136,135,128,0.08)';
+  // ── Datos PTGAS reales ──────────────────────────────
+  const anios     = ['2022','2023','2024','2025'];
+  const teoricas  = [4030242, 4067211, 4155852, 4114173];
+  const justif    = [495868,  531863,  531235,  635693];
+  const nojustif  = [174236,  14869,   14869,   99569];
+  const realizadas= [3360138, 3520478, 3647660, 3578048];
+  const tasa      = [83.37,   86.56,   87.77,   86.97];
 
-  Chart.defaults.font.family = "'Segoe UI', Arial, sans-serif";
+  const R  = 'rgba(183,18,52,0.85)';
+  const RL = 'rgba(183,18,52,0.25)';
+
+  const ctxP = document.getElementById('chartPTGAS').getContext('2d');
+
+  const datasetsPTGAS = {
+    tasa:      { label:'Tasa asist. %', data:tasa,       type:'line', borderColor:R, backgroundColor:RL, pointBackgroundColor:R, pointRadius:5, fill:true, tension:0.3, yAxisID:'yp', borderWidth:2.5 },
+    teoricas:  { label:'Hs. Teóricas',  data:teoricas,   type:'bar',  backgroundColor:[R,R,R,R], yAxisID:'yh' },
+    justif:    { label:'Abs. Justif.',  data:justif,     type:'bar',  backgroundColor:['rgba(44,102,165,0.8)','rgba(44,102,165,0.8)','rgba(44,102,165,0.8)','rgba(44,102,165,0.8)'], yAxisID:'yh' },
+    nojustif:  { label:'Abs. NO justif.', data:nojustif, type:'bar',  backgroundColor:['rgba(230,126,34,0.8)','rgba(230,126,34,0.8)','rgba(230,126,34,0.8)','rgba(230,126,34,0.8)'], yAxisID:'yh' },
+    realizadas:{ label:'Hs. Realizadas', data:realizadas,type:'bar',  backgroundColor:['rgba(42,157,74,0.8)','rgba(42,157,74,0.8)','rgba(42,157,74,0.8)','rgba(42,157,74,0.8)'], yAxisID:'yh' },
+  };
+
+  Chart.defaults.font.family = 'Arial, sans-serif';
   Chart.defaults.font.size = 12;
   Chart.defaults.color = '#555';
 
-  /* ── Datos ── */
-  const years = ['2019', '2020', '2021', '2022', '2023', '2024', '2025'];
-
-  const tasaData = {
-    todos:  [95.4, 93.1, 94.8, 95.6, 96.0, 96.2, 96.5],
-    ptgas:  [94.8, 92.4, 94.1, 95.1, 95.7, 96.0, 96.3],
-    pdi:    [96.1, 93.9, 95.6, 96.2, 96.4, 96.5, 96.8],
-  };
-
-  const labels = { todos: 'Media UCM', ptgas: 'PTGAS', pdi: 'PDI' };
-
-  /* ── Gráfico 1: Tasa de asistencia ── */
-  const ctxTasa = document.getElementById('chartTasa').getContext('2d');
-  const chartTasa = new Chart(ctxTasa, {
+  let modoActual = 'tasa';
+  const chartP = new Chart(ctxP, {
     type: 'line',
-    data: {
-      labels: years,
-      datasets: [{
-        label: 'Media UCM',
-        data: tasaData.todos,
-        borderColor: RED,
-        backgroundColor: RED_FILL,
-        borderWidth: 2.5,
-        pointBackgroundColor: RED,
-        pointRadius: 4,
-        pointHoverRadius: 6,
-        fill: true,
-        tension: 0.35,
-      }]
-    },
+    data: { labels: anios, datasets: [datasetsPTGAS.tasa] },
     options: {
       responsive: true,
-      interaction: { mode: 'index', intersect: false },
+      maintainAspectRatio: false,
+      interaction: { mode:'index', intersect:false },
       plugins: {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`
+            label: ctx => {
+              const v = ctx.parsed.y;
+              if (ctx.dataset.label.includes('%')) return ` Tasa: ${v.toFixed(2)} %`;
+              return ` ${ctx.dataset.label}: ${v.toLocaleString('es-ES')}`;
+            }
           }
         }
       },
       scales: {
-        y: {
-          min: 90,
-          max: 100,
-          ticks: { callback: v => v + '%' },
-          grid: { color: 'rgba(0,0,0,0.05)' }
-        },
-        x: { grid: { display: false } }
+        x: { grid:{ display:false }, ticks:{ color:'#2f2f2f', font:{size:13} } },
+        yp: { position:'left', min:78, max:92, ticks:{ callback: v => v+'%' }, grid:{ color:'rgba(0,0,0,0.06)' } },
+        yh: { display:false, beginAtZero:false }
       }
     }
   });
 
-  function setColectivo(col) {
-    document.querySelectorAll('#colControls .ctrl-btn').forEach(b => b.classList.remove('active'));
+  function setPTGAS(modo) {
+    document.querySelectorAll('#btnsPTGAS .btn-sel').forEach(b => b.classList.remove('active'));
     event.target.classList.add('active');
-    chartTasa.data.datasets[0].data = tasaData[col];
-    chartTasa.data.datasets[0].label = labels[col];
-    chartTasa.update();
+    const ds = datasetsPTGAS[modo];
+    chartP.data.datasets = [ds];
+    const esTasa = modo === 'tasa';
+    chartP.options.scales.yp.display = esTasa;
+    chartP.options.scales.yh.display = !esTasa;
+    chartP.config.type = ds.type || 'bar';
+    chartP.update();
+    modoActual = modo;
   }
-
-  /* ── Gráfico 2: Causas de ausencia (donut) ── */
-  const ctxCausas = document.getElementById('chartCausas').getContext('2d');
-  new Chart(ctxCausas, {
-    type: 'doughnut',
-    data: {
-      labels: ['Enf. común / IT', 'Accidente laboral', 'Accidente in itinere', 'Permiso retribuido', 'Otras causas'],
-      datasets: [{
-        data: [62, 12, 8, 13, 5],
-        backgroundColor: [RED, RED_MID, '#d4365a', '#e8657f', '#f0b5c0'],
-        borderWidth: 0,
-        hoverOffset: 6,
-      }]
-    },
-    options: {
-      responsive: true,
-      cutout: '60%',
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { boxWidth: 12, padding: 10, font: { size: 11 } }
-        },
-        tooltip: {
-          callbacks: {
-            label: ctx => ` ${ctx.label}: ${ctx.parsed}%`
-          }
-        }
-      }
-    }
-  });
-
-  /* ── Gráfico 3: Accidentes (barras agrupadas) ── */
-  const ctxAcc = document.getElementById('chartAccidentes').getContext('2d');
-  new Chart(ctxAcc, {
-    type: 'bar',
-    data: {
-      labels: years,
-      datasets: [
-        {
-          label: 'En jornada',
-          data: [28, 19, 21, 25, 24, 23, 22],
-          backgroundColor: RED,
-          borderRadius: 3,
-        },
-        {
-          label: 'In itinere',
-          data: [14, 9, 11, 13, 12, 11, 10],
-          backgroundColor: RED_LIGHT,
-          borderRadius: 3,
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { boxWidth: 12, padding: 10, font: { size: 11 } }
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { stepSize: 5 },
-          grid: { color: 'rgba(0,0,0,0.05)' }
-        },
-        x: { grid: { display: false } }
-      }
-    }
-  });
 </script>
 </body>
 </html>
